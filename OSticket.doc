@@ -1,0 +1,29 @@
+
+Osticket system install on debain 10
+echo "" > /etc/apt/sources.list
+echo "deb http://httpredir.debian.org/debian buster main contrib non-free" >> /etc/apt/sources.list
+echo "deb http://httpredir.debian.org/debian buster-updates main contrib non-free" >> /etc/apt/sources.list
+echo "deb http://security.debian.org/ buster/updates main contrib non-free" >> /etc/apt/sources.list
+
+apt update && apt upgrade -y
+apt install apache2
+systemctl start apache2.service
+systemctl restart apache2.service
+apt install mariadb-server
+mysql_secure_installation
+apt install -y php php-cli php-fpm php-common php-mbstring php-curl php-gd php-mysql php-json php-xml php-imap php-intl php-apcu libapache2-mod-php7.3
+
+CREATE DATABASE osticket;
+GRANT ALL ON osticket.* TO 'osticket' IDENTIFIED BY 'NoKia53';
+quit
+
+wget -c https://github.com/osTicket/osTicket/releases/download/v1.14.3/osTicket-v1.14.3.zip
+unzip osTicket-v1.14.3.zip
+
+mkdir support/upload/
+chown -R www-data:www-data support/
+cd support/upload
+cp include/ost-sampleconfig.php include/ost-config.php
+chmod 0666 include/ost-config.php
+When Install comlete
+chmod 0644 include/ost-config.php
